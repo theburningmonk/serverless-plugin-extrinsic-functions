@@ -1,0 +1,34 @@
+service: extrinsic-functions-demo
+
+plugins:
+  - serverless-plugin-extrinsic-functions
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  hello:
+    handler: handler.hello
+    environment:
+      STARTS_WITH_DEV:
+        Fn::StartsWith: [ dev-yan, dev ]  # use in functions
+      MAX:
+        Fn::Max: [ 40, 42 ] # should be 42
+      MIN:
+        Fn::Min: [ 40, 42 ] # should be 40
+
+resources:
+  Conditions:
+    StartsWithDev:
+      Fn::StartsWith: [ dev-yan, dev ]
+    GreaterThan42:
+      Fn::GreaterThan: [ 30, 42 ]
+
+  Resources:
+    AlarmTopic:
+      Type: AWS::SNS::Topic
+      Condition: GreaterThan42
+      Properties:
+        DisplayName: extrinsic-functions-topic
+        TopicName: extrinsic-functions-topic
