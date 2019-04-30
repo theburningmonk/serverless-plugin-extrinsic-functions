@@ -1,8 +1,25 @@
 # serverless-plugin-extrinsic-functions
 
-Introduces additional Fn:: functions such as `Fn::StartsWith`.
+Introduces additional `Fn::` functions such as `Fn::StartsWith`.
 
-For example, you can use it as part of CloudFormation Conditions:
+## Install
+
+Run npm install in your Serverless project.
+
+```yml
+$ npm install --save-dev serverless-plugin-extrinsic-functions
+```
+
+Add the plugin to your `serverless.yml` file
+
+```yml
+plugins:
+  - serverless-plugin-extrinsic-functions
+```
+
+## How to use
+
+This plugin lets you use a number of custom `Fn::` functions in the `serverless.yml` file. For example, you can use it as part of CloudFormation Conditions:
 
 ```yml
 resources:
