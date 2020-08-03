@@ -20,13 +20,22 @@ beforeEach(() => {
 })
 
 test('it can be used in custom', () => {
+  const json = JSON.stringify({
+    nested: {
+      field: 42
+    }
+  })
   serverless.service.custom = {
     StartsWithDev: {
       'Fn::StartsWith': [ 'dev-yan', 'dev' ]
+    },
+    JsonNestedField: {
+      'Fn::JsonPath': [ json, 'nested.field' ]
     }
   }
   extrinsicFunctions.hooks[hook]()
   expect(serverless.service.custom.StartsWithDev).toBe(true)
+  expect(serverless.service.custom.JsonNestedField).toBe(42)
 })
 
 test('it can be used in function', () => {
@@ -57,6 +66,11 @@ test('it can be used in resources.Conditions', () => {
 })
 
 test('it can be used in an array', () => {
+  const json = JSON.stringify({
+    nested: {
+      field: 42
+    }
+  })
   serverless.service.custom = {
     array: [
       { 'Fn::StartsWith': [ 'dev-yan', 'yan' ] },
@@ -66,7 +80,9 @@ test('it can be used in an array', () => {
       { 'Fn::GreaterThan': [ 4, 7 ] },
       { 'Fn::LessThan': [ 4, 7 ] },
       { 'Fn::Max': [ 4, 7 ] },
-      { 'Fn::Min': [ 4, 7 ] }
+      { 'Fn::Min': [ 4, 7 ] },
+      { 'Fn::JsonPath': [ json, 'nested.field' ] },
+      { 'Fn::JsonPath': [ json, 'this.path.does.not.exist', 'defaultValue' ] }
     ]
   }
   extrinsicFunctions.hooks[hook]()
@@ -79,7 +95,9 @@ test('it can be used in an array', () => {
       false,
       true,
       7,
-      4
+      4,
+      42,
+      'defaultValue'
     ]
   })
 })

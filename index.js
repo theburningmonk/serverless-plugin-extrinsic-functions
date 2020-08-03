@@ -1,3 +1,5 @@
+const get = require('lodash.get')
+
 const functions = {
   'Fn::StartsWith': ([ input, prefix ]) => input.startsWith(prefix),
   'Fn::EndsWith': ([ input, suffix ]) => input.endsWith(suffix),
@@ -7,7 +9,8 @@ const functions = {
   'Fn::GreaterThan': ([ x, y ]) => x > y,
   'Fn::LessThan': ([ x, y ]) => x < y,
   'Fn::Max': ([ x, y ]) => Math.max(x, y),
-  'Fn::Min': ([ x, y ]) => Math.min(x, y)
+  'Fn::Min': ([ x, y ]) => Math.min(x, y),
+  'Fn::JsonPath': ([ json, path, defaultValue ]) => get(JSON.parse(json), path, defaultValue)
 }
 
 class ExtrinsicFunctionsPlugin {
