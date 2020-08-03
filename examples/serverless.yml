@@ -7,16 +7,23 @@ provider:
   name: aws
   runtime: nodejs8.10
 
+custom:
+  json: '{ "nested": { "field": 42 } }'
+
 functions:
   hello:
     handler: handler.hello
     environment:
       STARTS_WITH_DEV:
-        Fn::StartsWith: [ dev-yan, dev ]  # use in functions
+        Fn::StartsWith: [ "${opt:stage}", dev ]  # use in functions
       MAX:
         Fn::Max: [ 40, 42 ] # should be 42
       MIN:
         Fn::Min: [ 40, 42 ] # should be 40
+      NESTED_FIELD:
+        Fn::JsonPath: [ "${self:custom.json}", "nested.field" ]
+      NESTED_FIELD_SSM:
+        Fn::JsonPath: [ "${ssm:/workshop-yancui/dev/serviceQuotas}", "searchMaxCount" ]
 
 resources:
   Conditions:

@@ -25,7 +25,7 @@ This plugin lets you use a number of custom `Fn::` functions in the `serverless.
 resources:
   Conditions:
     StartsWithDev:
-      Fn::StartsWith: [ ${opt:stage}, dev ]
+      Fn::StartsWith: [ "${opt:stage}", dev ]
 ```
 
 You can also use it elsewhere in your `serverless.yml` as well, such as in the `custom` clause many plugins rely on, or as part of your function definitions:
@@ -36,7 +36,7 @@ functions:
     handler: handler.hello
     environment:
       STARTS_WITH_DEV:
-        Fn::StartsWith: [ ${opt:stage}, dev ]  # use in functions
+        Fn::StartsWith: [ "${opt:stage}", dev ]  # use in functions
 ```
 
 These are the functions that are current supported, and the javascript functions they map to:
@@ -50,3 +50,4 @@ These are the functions that are current supported, and the javascript functions
 - `Fn::LessThan`: `([ x, y ]) => x < y`
 - `Fn::Max`: `([ x, y ]) => Math.max(x, y)`
 - `Fn::Min`: `([ x, y ]) => Math.min(x, y)`
+- `Fn::JsonPath`: `([ json, path ]) => lodash.get(JSON.parse(json), path)`
