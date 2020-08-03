@@ -50,4 +50,4 @@ These are the functions that are current supported, and the javascript functions
 - `Fn::LessThan`: `([ x, y ]) => x < y`
 - `Fn::Max`: `([ x, y ]) => Math.max(x, y)`
 - `Fn::Min`: `([ x, y ]) => Math.min(x, y)`
-- `Fn::JsonPath`: `([ json, path ]) => lodash.get(JSON.parse(json), path)`
+- `Fn::JsonPath`: `([ json, path, defaultValue ]) => lodash.get(JSON.parse(json), path, defaultValue)`
